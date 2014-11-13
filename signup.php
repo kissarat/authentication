@@ -8,6 +8,8 @@ function form($error = '') {
         <?=email() ?>
         <?=password() ?>
         <?=password('repeat') ?>
+        <input type="hidden" name="MAX_FILE_SIZE" value="65536" />
+        <input id="avatar" name="avatar" type="file" onchange="image_choosen()"/>
         <?=submit('signup') ?>
     </form>
     <?php

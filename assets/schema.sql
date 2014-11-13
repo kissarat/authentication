@@ -10,6 +10,7 @@ CREATE TABLE `user`(
   `password` CHAR(32) NOT NULL,
   `salt` CHAR(32) UNIQUE NOT NULL,
   `verified` BOOLEAN NOT NULL DEFAULT FALSE,
+  `avatar` BLOB,
   `created` DATE NOT NULL,
   `modified` TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP
 );
