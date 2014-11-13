@@ -1,6 +1,6 @@
--- CREATE DATABASE `c9`;
--- CREATE USER `kissarat`@`localhost`;
--- GRANT ALL PRIVILEGES ON `c9`.* TO `kissarat`@`localhost`;
+CREATE DATABASE `c9`;
+CREATE USER `kissarat`@`localhost`;
+GRANT ALL PRIVILEGES ON `c9`.* TO `kissarat`@`localhost`;
 USE `c9`;
 
 DROP TABLE IF EXISTS `user`;
