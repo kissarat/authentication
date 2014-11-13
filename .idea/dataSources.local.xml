@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="c9" uuid="ffa5a6fc-3dbd-43b9-a6e7-288d5462fb5f">
+      <secret-storage>master_key</secret-storage>
+      <user-name>kissarat</user-name>
+      <schema-pattern>c9.*</schema-pattern>
+      <default-schemas>c9.*</default-schemas>
+    </data-source>
+  </component>
+</project>
+
