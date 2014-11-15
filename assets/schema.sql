@@ -7,13 +7,36 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`(
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `email` VARCHAR(64) UNIQUE NOT NULL,
-  `password` CHAR(32) NOT NULL,
-  `salt` CHAR(32) UNIQUE NOT NULL,
+  `password` BINARY(64) NOT NULL,
+  `salt` VARCHAR(64) UNIQUE NOT NULL,
   `verified` BOOLEAN NOT NULL DEFAULT FALSE,
-  `avatar` BLOB,
+#   `avatar` BLOB,
   `created` DATE NOT NULL,
   `modified` TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP
 );
+
+DROP TABLE IF EXISTS `log`;
+CREATE TABLE `log`(
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `user` INT NOT NULL REFERENCES `user`(`id`),
+  `status` BOOLEAN NOT NULL,
+  `browser` TINYTEXT,
+  `host` VARCHAR(32),
+  `time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+DROP VIEW IF EXISTS `auth`;
+CREATE VIEW `auth` AS
+  SELECT u.`email`, `browser`, `status`
+  FROM `log` l JOIN `user` u ON l.`user` = u.`id`;
+
+DROP VIEW IF EXISTS `last_auth`;
+CREATE VIEW `last_auth` AS
+  SELECT `email`, count(`time`) as `count`
+  FROM `log` l JOIN `user` u ON l.`user` = u.`id`
+  GROUP BY `email`
+  ORDER BY `time` DESC
+  LIMIT 1;
 
 DELIMITER $$
 
@@ -23,8 +46,6 @@ CREATE PROCEDURE `verify` (IN `email` VARCHAR(64), OUT `salt` CHAR(32))
     IF (`email` REGEXP '^[^@]+@[^@]+\.[^@]{2,}$') = 0 THEN
       SIGNAL SQLSTATE '45000'
       SET MESSAGE_TEXT = 'Invalid email format';
-    ELSE
-      SET `salt` = REPLACE(uuid(), '-', '');
     END IF ;
   END$$
 
